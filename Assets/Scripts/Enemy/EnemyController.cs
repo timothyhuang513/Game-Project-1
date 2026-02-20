@@ -14,6 +14,9 @@ public class EnemyController : MonoBehaviour
     private PlayerAwareness _playerAwareness;
     private Vector2 _direction;
 
+    public int maxHealth = 3;
+    private int currentHealth;
+
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
@@ -21,7 +24,17 @@ public class EnemyController : MonoBehaviour
     }
     void Start()
     {
-        
+        currentHealth = maxHealth;
+    }
+
+    public void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+
+        if (currentHealth <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void FixedUpdate()
