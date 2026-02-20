@@ -34,6 +34,11 @@ public class EnemyController : MonoBehaviour
         if (currentHealth <= 0)
         {
             Destroy(gameObject);
+            GameManager gm = GameManager.FindFirstObjectByType<GameManager>();
+            if (gm != null)
+            {
+                gm.EnemyDefeated();
+            }
         }
     }
 
