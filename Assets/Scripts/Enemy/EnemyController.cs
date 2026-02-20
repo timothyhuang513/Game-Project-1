@@ -80,4 +80,14 @@ public class EnemyController : MonoBehaviour
             _rigidbody.linearVelocity = transform.up * _speed;
         }
     }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        PlayerController player = collision.gameObject.GetComponent<PlayerController>();
+
+        if (player != null)
+        {
+            player.TakeDamage(1);
+        }
+    }
 }

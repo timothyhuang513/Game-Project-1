@@ -1,3 +1,4 @@
+using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,6 +12,11 @@ public class PlayerController : MonoBehaviour
     private Vector2 moveDirection;
     private Vector2 mousePosition;
 
+    public int maxHealth = 5;
+    private int currentHealth;
+
+    public Image healthBar;
+
     private void Awake()
     {
         controls = new PlayerControls();
@@ -21,6 +27,36 @@ public class PlayerController : MonoBehaviour
         controls.Player.Aim.performed += ctx => mousePosition = ctx.ReadValue<Vector2>();
 
         controls.Player.Fire.performed += ctx => weapon.Fire();
+    }
+
+    void Start()
+    {
+        currentHealth = maxHealth;
+        UpdateHealthBar();
+    }
+
+    public void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+
+        UpdateHealthBar();
+
+        if (currentHealth <= 0)
+        {
+            Lose();
+        }
+    }
+
+    void UpdateHealthBar()
+    {
+        healthBar.fillAmount = (float)currentHealth / maxHealth;
+    }
+
+    void Lose()
+    {
+        Debug.Log("Player Lost");
+        Destroy(gameObject);
     }
 
     private void OnEnable()
